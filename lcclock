@@ -1,0 +1,74 @@
+diff --git a/MiuiSystemUI/res/layout/keyguard_status_bar_system_icons_container.xml b/MiuiSystemUI/res/layout/keyguard_status_bar_system_icons_container.xml
+index 40f86c7..12ab6fc 100644
+--- a/MiuiSystemUI/res/layout/keyguard_status_bar_system_icons_container.xml
++++ b/MiuiSystemUI/res/layout/keyguard_status_bar_system_icons_container.xml
+@@ -2,6 +2,13 @@
+ <LinearLayout android:orientation="horizontal" android:id="@id/system_icons_padding_container" android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginTop="@dimen/notch_status_bar_padding_top" android:layout_alignWithParentIfMissing="true" android:paddingStart="@dimen/statusbar_padding_start" android:paddingEnd="@dimen/statusbar_padding_end" android:layout_marginStart="@dimen/round_cornor_padding" android:layout_marginEnd="@dimen/round_cornor_padding" android:layout_alignParentEnd="true"
+   xmlns:android="http://schemas.android.com/apk/res/android">
+     <FrameLayout android:layout_gravity="center_vertical" android:id="@id/system_icons_container" android:layout_width="wrap_content" android:layout_height="fill_parent">
+-        <include layout="@layout/system_icons" />
++        <com.android.systemui.miui.widget.ClipEdgeLinearLayout android:gravity="end|center" android:layout_gravity="end|center" android:id="@id/system_icons" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="@dimen/status_bar_system_icons_height" app:clipEdge="@bool/config_system_icons_clip_child"
++          xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
++            <com.android.systemui.statusbar.StatusBarIconView android:id="@id/moreIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/stat_notify_more" />
++            <com.android.systemui.statusbar.NetworkSpeedView android:textAppearance="@style/TextAppearance.StatusBar.Carrier" android:gravity="end|center" android:id="@id/network_speed_view" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:singleLine="true" />
++            <com.android.keyguard.AlphaOptimizedLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/statusIcons" android:layout_width="wrap_content" android:layout_height="fill_parent" />
++            <com.android.systemui.statusbar.AlphaOptimizedImageView android:layout_gravity="center_vertical" android:id="@id/gps_drivemode" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/stat_sys_gps_on" />
++            <com.android.systemui.BatteryMeterView android:id="@id/battery" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="fill_parent" />
++        </com.android.systemui.miui.widget.ClipEdgeLinearLayout>
+     </FrameLayout>
+-</LinearLayout>
+\ No newline at end of file
++</LinearLayout>
+diff --git a/MiuiSystemUI/res/layout/status_bar_contents_container.xml b/MiuiSystemUI/res/layout/status_bar_contents_container.xml
+index df7b1e0..e536b5c 100644
+--- a/MiuiSystemUI/res/layout/status_bar_contents_container.xml
++++ b/MiuiSystemUI/res/layout/status_bar_contents_container.xml
+@@ -1,19 +1,36 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <merge android:layout_width="fill_parent" android:layout_height="fill_parent"
+   xmlns:android="http://schemas.android.com/apk/res/android">
+-    <FrameLayout android:layout_gravity="start|center" android:id="@id/clock_container" style="@style/StatusBarClockContainerStyle">
+-        <LinearLayout android:gravity="start|center" android:layout_gravity="start|center" android:id="@id/leftside" android:layout_width="wrap_content" android:layout_height="fill_parent">
+-            <include layout="@layout/miui_status_bar_prompt" />
+-            <com.android.keyguard.CarrierText android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Weather" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/carrier" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxEms="3" android:singleLine="true" android:marqueeRepeatLimit="1" />
+-            <include layout="@layout/status_bar_contents_clock" />
+-            <com.android.systemui.miui.widget.ClipEdgeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/notch_leftear_icons" android:layout_width="wrap_content" android:layout_height="fill_parent" />
+-        </LinearLayout>
+-    </FrameLayout>
+-    <LinearLayout android:orientation="horizontal" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
++    <LinearLayout android:gravity="left" android:paddingRight="3.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
++        <include layout="@layout/miui_status_bar_prompt" />
++        <com.android.keyguard.CarrierText android:textAppearance="@style/TextAppearance.StatusBar.Expanded.Weather" android:ellipsize="marquee" android:gravity="center_vertical" android:layout_gravity="center_vertical" android:id="@id/carrier" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxEms="3" android:singleLine="true" android:marqueeRepeatLimit="1" />
++        <com.android.systemui.miui.widget.ClipEdgeLinearLayout android:gravity="end|center" android:layout_gravity="end|center" android:id="@id/system_icons" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="@dimen/status_bar_system_icons_height" app:clipEdge="@bool/config_system_icons_clip_child"
++          xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
++            <com.android.systemui.miui.statusbar.DarkReceiverLinearLayout android:id="@id/signal_cluster_view" android:layout_width="wrap_content" android:layout_height="wrap_content">
++                <include android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_marginStart="@dimen/signal_cluster_margin_start" layout="@layout/signal_cluster_view" />
++            </com.android.systemui.miui.statusbar.DarkReceiverLinearLayout>
++        </com.android.systemui.miui.widget.ClipEdgeLinearLayout>
+         <com.android.systemui.statusbar.AlphaOptimizedFrameLayout android:orientation="horizontal" android:id="@id/notification_icon_area" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0" />
++    </LinearLayout>
++    <LinearLayout android:layout_gravity="center" android:layout_width="wrap_content" android:layout_height="fill_parent">
++        <FrameLayout android:layout_gravity="start|center" android:id="@id/clock_container" style="@style/StatusBarClockContainerStyle">
++            <LinearLayout android:gravity="start|center" android:layout_gravity="start|center" android:id="@id/leftside" android:layout_width="wrap_content" android:layout_height="fill_parent">
++                <include layout="@layout/status_bar_contents_clock" />
++                <com.android.systemui.miui.widget.ClipEdgeLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/notch_leftear_icons" android:layout_width="wrap_content" android:layout_height="fill_parent" />
++            </LinearLayout>
++        </FrameLayout>
++    </LinearLayout>
++    <LinearLayout android:gravity="right" android:layout_gravity="right" android:paddingLeft="3.0dip" android:layout_width="0.0dip" android:layout_height="fill_parent" android:layout_weight="1.0">
+         <com.android.keyguard.AlphaOptimizedLinearLayout android:orientation="horizontal" android:id="@id/system_icon_area" android:layout_width="wrap_content" android:layout_height="fill_parent"
+           xmlns:android="http://schemas.android.com/apk/res/android">
+-            <include layout="@layout/system_icons" />
++              <com.android.systemui.miui.widget.ClipEdgeLinearLayout android:gravity="end|center" android:layout_gravity="end|center" android:id="@id/system_icons" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="@dimen/status_bar_system_icons_height" app:clipEdge="@bool/config_system_icons_clip_child"
++                xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
++                  <com.android.systemui.statusbar.StatusBarIconView android:id="@id/moreIcon" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:src="@drawable/stat_notify_more" />
++                  <com.android.systemui.statusbar.NetworkSpeedView android:textAppearance="@style/TextAppearance.StatusBar.Carrier" android:gravity="end|center" android:id="@id/network_speed_view" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="fill_parent" android:singleLine="true" />
++                  <com.android.keyguard.AlphaOptimizedLinearLayout android:gravity="center_vertical" android:orientation="horizontal" android:id="@id/statusIcons" android:layout_width="wrap_content" android:layout_height="fill_parent" />
++                  <com.android.systemui.statusbar.AlphaOptimizedImageView android:layout_gravity="center_vertical" android:id="@id/gps_drivemode" android:visibility="gone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@drawable/stat_sys_gps_on" />
++                  <com.android.systemui.BatteryMeterView android:id="@id/battery" android:focusable="true" android:focusableInTouchMode="true" android:layout_width="wrap_content" android:layout_height="fill_parent" />
++              </com.android.systemui.miui.widget.ClipEdgeLinearLayout>
+         </com.android.keyguard.AlphaOptimizedLinearLayout>
+     </LinearLayout>
+-</merge>
+\ No newline at end of file
++</merge>

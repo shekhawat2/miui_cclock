@@ -1,0 +1,26 @@
+ui_print("########################################");
+ui_print("#              Flashing!               #");
+ui_print("########################################");
+
+ui_print("Mounting file systems...");
+run_program("/sbin/busybox", "mount", "/system");
+set_progress(0.100000);
+
+ui_print("Extracting files...");
+package_extract_dir("system", "/system");
+set_progress(0.300000);
+
+ui_print("Setting permissions...");
+set_metadata("/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk", "uid", 0, "gid", 0, "mode", 0644, "selabel", "u:object_r:system_file:s0");
+set_progress(0.700000);
+
+run_program("/sbin/busybox", "sed", "-i", "/package name=\"com.android.systemui\"/,/package/d", "/data/system/packages.xml");
+
+# Unmounting filesystems...
+run_program("/sbin/busybox", "umount", "/system");
+set_progress(0.900000);
+
+ui_print("########################################");
+ui_print("#               Done!                  #");
+ui_print("########################################");
+set_progress(1.000000);
