@@ -18,10 +18,10 @@ $apktool if $LOCALDIR/framework/miui.apk
 $apktool if $LOCALDIR/framework/miuisystem.apk
 
 echo "Creating Centre Clock Disabler"
-rm -rf  $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI
-mkdir -p $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI
-cp $LOCALDIR/MiuiSystemUI.apk $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk
-#unzip -o $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk META-INF/*
+rm -rf  $LOCALDIR/flashable/system/priv-app/MiuiSystemUI
+mkdir -p $LOCALDIR/flashable/system/priv-app/MiuiSystemUI
+cp $LOCALDIR/MiuiSystemUI.apk $LOCALDIR/flashable/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk
+#unzip -o $LOCALDIR/flashable/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk META-INF/*
 cd $LOCALDIR/flashable
 zip $LOCALDIR/$NAME-CentreClockDisabler.zip -r *
 cd $LOCALDIR
@@ -32,11 +32,11 @@ rm $LOCALDIR/MiuiSystemUI.apk
 patch -p1 < lcclock || exit 1
 echo "Recompiling"
 $apktool b $LOCALDIR/MiuiSystemUI
-rm -rf  $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI
-mkdir -p $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI
-#cp $LOCALDIR/MiuiSystemUI/dist/MiuiSystemUI.apk $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk
-java -jar $tools/signapk/signapk.jar $tools/keys/platform.x509.pem tools/keys/platform.pk8 "$LOCALDIR/MiuiSystemUI/dist/MiuiSystemUI.apk" "$LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk"
-#zip -ur $LOCALDIR/flashable/system/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk META-INF
+rm -rf  $LOCALDIR/flashable/system/priv-app/MiuiSystemUI
+mkdir -p $LOCALDIR/flashable/system/priv-app/MiuiSystemUI
+#cp $LOCALDIR/MiuiSystemUI/dist/MiuiSystemUI.apk $LOCALDIR/flashable/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk
+java -jar $tools/signapk/signapk.jar $tools/keys/platform.x509.pem tools/keys/platform.pk8 "$LOCALDIR/MiuiSystemUI/dist/MiuiSystemUI.apk" "$LOCALDIR/flashable/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk"
+#zip -ur $LOCALDIR/flashable/system/priv-app/MiuiSystemUI/MiuiSystemUI.apk META-INF
 cd $LOCALDIR/flashable
 zip $LOCALDIR/$NAME-CentreClockEnabler.zip -r *
 cd $LOCALDIR
